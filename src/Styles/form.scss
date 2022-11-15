@@ -1,0 +1,86 @@
+
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+body{
+    font-family: 'Roboto', sans-serif;
+    background-color: rgba(4, 121, 255, 0.26);
+}
+.form{
+    width: 50%;
+    margin: 50px auto;
+    background-color: rgba(71, 163, 238, 0.267);
+    padding: 30px 0;
+    border-radius: 5px;
+}
+
+.input-row{
+    width: 90%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.input-group{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 40%;
+    gap: 5px;
+}
+
+.float-label{
+    // flex-grow: 1;
+    font-size: 15px;
+   
+}
+
+.input{
+    // flex-grow: 1;
+    height: 34px;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+    border: 0px solid;
+    padding: 3px 10px;
+    border: 0px solid;
+}
+.input:focus{
+    border: 0px solid ;
+    outline: 0px;
+}
+
+.radio-input{
+    display: flex;
+    gap: 12px;
+}
+
+.radio{
+    flex-basis: 30%;
+}
+
+.radio-group{
+    display: flex;
+    // flex-basis: 30%;
+    gap:5px;
+    background-color: rgba(0, 29, 90, 0.637);
+    color: white;
+    padding: 5px 5px;
+    border-radius: 5px;
+}
+
+.submit-comp{
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+.submit{
+    background-color: rgba(56, 2, 156, 0.616);
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 15px 10px 15px;
+    border: 0px solid;
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+}
