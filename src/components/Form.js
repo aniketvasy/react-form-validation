@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { Formik, useFormik } from "formik";
+import { signUpSchemas } from "../schemas";
 
 const Form = () => {
-  const [userRegistration, setUserRegistration] = useState({
+  const initialValues = {
     firstName: "",
     lastName: "",
     userName: "",
@@ -10,18 +12,40 @@ const Form = () => {
     gender: "",
     password: "",
     confirmPassword: "",
+  };
+
+  const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
+    initialValues: initialValues,
+    validationSchema: signUpSchemas,
+    onSubmit: (values) => {
+      console.log("submited Data", values);
+    },
   });
 
-  const handleInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setUserRegistration({ ...userRegistration, [name]: value });
-    console.log(userRegistration);
-  };
+  console.log("Errors", errors);
+  // console.log(values);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  // const [userRegistration, setUserRegistration] = useState({
+  //   firstName: "",
+  //   lastName: "",
+  //   userName: "",
+  //   email: "",
+  //   mobileNumber: "",
+  //   gender: "",
+  //   password: "",
+  //   confirmPassword: "",
+  // });
+
+  // const handleInput = (e) => {
+  //   const name = e.target.name;
+  //   const value = e.target.value;
+  //   setUserRegistration({ ...userRegistration, [name]: value });
+  //   console.log(userRegistration);
+  // };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  // };
 
   return (
     <>
@@ -37,27 +61,39 @@ const Form = () => {
               >
                 First Name *
               </label>
+              {errors && (
+                <div className="error-comp">
+                  <p className="error">{errors.firstName}</p>
+                </div>
+              )}
               <input
                 type="text"
                 autoComplete="off"
                 name="firstName"
                 id="firstName"
                 className="input input-firstName"
-                value={userRegistration.firstName}
-                onChange={handleInput}
+                value={values.firstName}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
             </div>
 
             <div className="input-group">
               <label className="float-label label-lastName"> Last Name *</label>
+              {errors && (
+                <div className="error-comp">
+                  <p className="error">{errors.lastName}</p>
+                </div>
+              )}
               <input
                 type="text"
                 autoComplete="off"
                 name="lastName"
                 id="lastName"
                 className="input input-lastName"
-                value={userRegistration.lastName}
-                onChange={handleInput}
+                value={values.lastName}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
             </div>
           </div>
@@ -67,27 +103,39 @@ const Form = () => {
           <div className="input-row">
             <div className="input-group">
               <label className="float-label label-userName"> User Name *</label>
+              {errors && (
+                <div className="error-comp">
+                  <p className="error">{errors.userName}</p>
+                </div>
+              )}
               <input
                 type="text"
                 autoComplete="off"
                 name="userName"
                 id="userName"
                 className="input input-userName"
-                value={userRegistration.userName}
-                onChange={handleInput}
+                value={values.userName}
+                onChange={handleChange}
+                onBlur={handleBlur}
               ></input>
             </div>
 
             <div className="input-group">
               <label className="float-label label-email"> Email *</label>
+              {errors && (
+                <div className="error-comp">
+                  <p className="error">{errors.email}</p>
+                </div>
+              )}
               <input
                 type="text"
                 autoComplete="off"
                 name="email"
                 id="email"
                 className="input input-email"
-                value={userRegistration.email}
-                onChange={handleInput}
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
               ></input>
             </div>
           </div>
@@ -97,17 +145,22 @@ const Form = () => {
           <div className="input-row">
             <div className="input-group">
               <label className="float-label label-mobileNumber">
-                {" "}
                 Mobile Number
               </label>
+              {errors && (
+                <div className="error-comp">
+                  <p className="error">{errors.mobileNumber}</p>
+                </div>
+              )}
               <input
                 type="number"
                 autoComplete="off"
                 name="mobileNumber"
                 id="mobileNumber"
                 className="input input-mobileNumber"
-                value={userRegistration.mobileNumber}
-                onChange={handleInput}
+                value={values.mobileNumber}
+                onChange={handleChange}
+                onBlur={handleBlur}
               ></input>
             </div>
 
@@ -120,10 +173,10 @@ const Form = () => {
                   <input
                     type="radio"
                     name="gender"
-                    id="gender"
+                    id="male"
                     className="radio-input"
                     value={"male"}
-                    onChange={handleInput}
+                    onChange={() => {}}
                   ></input>
                 </div>
 
@@ -132,10 +185,10 @@ const Form = () => {
                   <input
                     type="radio"
                     name="gender"
-                    id="gender"
+                    id="female"
                     className="radio-input"
                     value={"female"}
-                    onChange={handleInput}
+                    onChange={() => {}}
                   ></input>
                 </div>
 
@@ -144,10 +197,10 @@ const Form = () => {
                   <input
                     type="radio"
                     name="gender"
-                    id="gender"
+                    id="other"
                     className="radio-input"
                     value={"other"}
-                    onChange={handleInput}
+                    onChange={() => {}}
                   ></input>
                 </div>
               </div>
@@ -161,14 +214,20 @@ const Form = () => {
               <label className="float-label label-password" htmlFor="password">
                 Password
               </label>
+              {errors && (
+                <div className="error-comp">
+                  <p className="error">{errors.password}</p>
+                </div>
+              )}
               <input
                 type="password"
                 autoComplete="off"
                 name="password"
                 id="password"
                 className="input input-password"
-                value={userRegistration.password}
-                onChange={handleInput}
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
             </div>
 
@@ -176,14 +235,20 @@ const Form = () => {
               <label className="float-label label-confirmPassword">
                 Confirm Password
               </label>
+              {errors && (
+                <div className="error-comp">
+                  <p className="error">{errors.confirmPassword}</p>
+                </div>
+              )}
               <input
                 type="password"
                 autoComplete="off"
                 name="confirmPassword"
                 id="confirmPassword"
                 className="input input-confirmPassword"
-                value={userRegistration.confirmPassword}
-                onChange={handleInput}
+                value={values.confirmPassword}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
             </div>
           </div>
@@ -195,7 +260,6 @@ const Form = () => {
           </div>
         </form>
       </div>
-      <div className="data">{userRegistration.name}</div>
     </>
   );
 };
