@@ -57,14 +57,13 @@ body {
   height: 34px;
   font-size: 16px;
   border-radius: 5px;
-  background-color: white;
   border: 0px solid;
   padding: 3px 10px;
-  border: 0px solid;
+  border: 1px rgba(255, 0, 0, 0) solid;
 }
 
 .input:focus {
-  border: 0px solid;
+  border: 1px rgba(255, 0, 0, 0) solid;
   outline: 0px;
 }
 
@@ -114,7 +113,7 @@ body {
 .error-comp {
   position: absolute;
   font-size: 13px;
-  top: 58px;
+  top: 60px;
   left: 0px;
   width: 100%;
 }
