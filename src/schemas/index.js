@@ -28,7 +28,12 @@ export const signUpSchemas = Yup.object({
   confirmPassword: Yup.string()
     .required("Please Enter Confirm Password")
     .oneOf([Yup.ref("password"), null], "Password Not Match"),
-  country: Yup.string().required("please Select Country"),
-  state: Yup.string().required("please Select Country"),
-  city: Yup.string().required("please Select Country"),
+  // country: Yup.object()
+  //   .shape({
+  //     isoCode: Yup.string().required("please Select Country"),
+  //     label: Yup.string().required("please Select Country"),
+  //   })
+  country: Yup.object().required("please Select Country"),
+  state: Yup.object().required("please Select Country"),
+  city: Yup.object().required("please Select Country"),
 });

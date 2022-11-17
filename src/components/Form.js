@@ -33,14 +33,23 @@ const Form = () => {
     validationSchema: signUpSchemas,
     onSubmit: (values, action) => {
       console.log("submited Data", values);
+      alert("yehooo");
+      console.log("last errors", errors);
 
       ////////----------   API   ---------------
 
       const headers = new Headers();
       headers.append("Content-Type", "application/json");
 
+      const data = {
+        ...values,
+        country: values.country.name,
+        state: values.state.name,
+        city: values.city.name,
+      };
+
       const body = {
-        userData: values,
+        userData: data,
       };
 
       const options = {
@@ -50,7 +59,7 @@ const Form = () => {
         body: JSON.stringify(body),
       };
 
-      fetch("https://eo87micm2jvi3ja.m.pipedream.net", options);
+      fetch("https://eo2305swbtadcxw.m.pipedream.net", options);
 
       ////////----------   API -/   ------------
       action.resetForm();
@@ -113,6 +122,18 @@ const Form = () => {
   // const handleSubmit = (e) => {
   //   e.preventDefault();
   // };
+
+  async function hello() {
+    if (errors.country) {
+      touched.country = true;
+    }
+    if (errors.state) {
+      touched.state = true;
+    }
+    if (errors.city) {
+      touched.city = true;
+    }
+  }
 
   return (
     <>
@@ -336,7 +357,7 @@ const Form = () => {
               <label className="float-label label-country">Country</label>
               {errors.country && touched.country ? (
                 <div className="error-comp">
-                  <p className="error">{errors.country}</p>
+                  <p className="error">{"Please select country"}</p>
                 </div>
               ) : null}
 
@@ -346,9 +367,16 @@ const Form = () => {
                 options={updatedCountries}
                 value={values.country}
                 placeholder={"Enter Country Name"}
-                onBlur={handleBlur}
+                onBlur={(e) => {
+                  handleBlur(e);
+                  if (errors.country) {
+                    touched.country = true;
+                  }
+                  // console.log("true false==>", errors.country, err);
+                }}
                 onChange={(value) => {
                   console.log("====>", value);
+                  // err = true;
                   // updatedStates(value.countryCode);
                   setValues(
                     {
@@ -370,9 +398,9 @@ const Form = () => {
               >
                 State
               </label>
-              {errors.state ? (
+              {errors.state && touched.state ? (
                 <div className="error-comp">
-                  <p className="error">{errors.state}</p>
+                  <p className="error">{"Please select state"}</p>
                 </div>
               ) : null}
 
@@ -384,7 +412,14 @@ const Form = () => {
                 )}
                 value={values.state}
                 placeholder={"Enter Country Name"}
-                onBlur={handleBlur}
+                onBlur={(e) => {
+                  handleBlur(e);
+                  if (errors.state) {
+                    // check = true;
+                    touched.state = true;
+                  }
+                  // console.log("true false==>", errors.country, err);
+                }}
                 onChange={(value) => {
                   setValues({ ...values, state: value, city: "" }, false);
                 }}
@@ -399,7 +434,7 @@ const Form = () => {
               <label className="float-label label-country">City</label>
               {errors.city && touched.city ? (
                 <div className="error-comp">
-                  <p className="error">{errors.city}</p>
+                  <p className="error">{"Please select city"}</p>
                 </div>
               ) : null}
 
@@ -412,7 +447,13 @@ const Form = () => {
                 )}
                 value={values.city}
                 // onChange={(value) => setFieldValue("city", value)}
-                onBlur={handleBlur}
+                onBlur={(e) => {
+                  handleBlur(e);
+                  if (errors.city) {
+                    touched.city = true;
+                  }
+                  // console.log("true false==>", errors.country, err);
+                }}
                 onChange={(value) => {
                   setValues({ ...values, city: value }, false);
                 }}
