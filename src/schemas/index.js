@@ -17,9 +17,8 @@ export const signUpSchemas = Yup.object({
     .email("Enter valid email")
     .required("Please Enter Your Email"),
   mobileNumber: Yup.string()
-    .min(10, "Mobile Number should be 10 digit")
-    .max(10, "Mobile Number should be 10 digit")
-    .required("Please Enter Your Mobile Number"),
+    .required("Please Enter Mobile Number")
+    .matches(/^[6-9]\d{9}$/, "Enter Valid Mobile Number"),
   gender: Yup.string().min(1).required("Please Enter Gender"),
   password: Yup.string()
     .min(6, "Password should be 6 to 40 characters")
@@ -36,4 +35,14 @@ export const signUpSchemas = Yup.object({
   country: Yup.object().required("please Select Country"),
   state: Yup.object().required("please Select Country"),
   city: Yup.object().required("please Select Country"),
+  pinCode: Yup.string()
+    .matches(/^[1-9][0-9]{5}$/, "Enter Valid Pin Code")
+    .required("Please Enter Pin Code"),
+  dateOfBirth: Yup.string().required("Please Enter Date Of Birth"),
+  panNumber: Yup.string()
+    .matches(
+      /([A-Z]){5}([0-9]){4}([A-Z]){1}$/,
+      "Please Enter Valid Pan Card Number"
+    )
+    .required("please Enter Pan Card Number"),
 });

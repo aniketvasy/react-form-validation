@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, useFormik } from "formik";
 import { signUpSchemas } from "../schemas";
 import Select from "react-select";
 import { City, Country, State } from "country-state-city";
+import { getMouseEventOptions } from "@testing-library/user-event/dist/utils";
 
 const Form = () => {
+  const [dateErrorMessage, setDateErrorMessage] = useState("");
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -17,6 +19,9 @@ const Form = () => {
     country: "",
     state: "",
     city: "",
+    pinCode: "",
+    dateOfBirth: "",
+    panNumber: "",
   };
 
   const {
@@ -62,7 +67,7 @@ const Form = () => {
       fetch("https://eo2305swbtadcxw.m.pipedream.net", options);
 
       ////////----------   API -/   ------------
-      action.resetForm();
+      // action.resetForm();
     },
   });
 
@@ -135,6 +140,15 @@ const Form = () => {
     }
   }
 
+  const exceptThisSymbols = ["e", "E", "+", "-", "."];
+  const re = /^[0-9\b]+$/;
+
+  useEffect(() => {}, [dateErrorMessage]);
+  console.log(
+    "Select Date Between ${e.target.max} to ${e.target.min}",
+    dateErrorMessage
+  );
+
   return (
     <>
       <div className="form-comp" onSubmit={handleSubmit}>
@@ -147,7 +161,7 @@ const Form = () => {
                 className="float-label label-firstName"
                 htmlFor="firstName"
               >
-                First Name *
+                First Name
               </label>
               {errors.firstName && touched.firstName ? (
                 <div className="error-comp">
@@ -167,7 +181,7 @@ const Form = () => {
             </div>
 
             <div className="input-group">
-              <label className="float-label label-lastName"> Last Name *</label>
+              <label className="float-label label-lastName"> Last Name </label>
               {errors.lastName && touched.lastName ? (
                 <div className="error-comp">
                   <p className="error">{errors.lastName}</p>
@@ -190,7 +204,7 @@ const Form = () => {
 
           <div className="input-row">
             <div className="input-group">
-              <label className="float-label label-userName"> User Name *</label>
+              <label className="float-label label-userName"> User Name </label>
               {errors.userName && touched.userName ? (
                 <div className="error-comp">
                   <p className="error">{errors.userName}</p>
@@ -209,7 +223,7 @@ const Form = () => {
             </div>
 
             <div className="input-group">
-              <label className="float-label label-email"> Email *</label>
+              <label className="float-label label-email"> Email </label>
               {errors.email && touched.email ? (
                 <div className="error-comp">
                   <p className="error">{errors.email}</p>
@@ -247,6 +261,9 @@ const Form = () => {
                 id="mobileNumber"
                 className="input input-mobileNumber"
                 value={values.mobileNumber}
+                onKeyDown={(e) =>
+                  exceptThisSymbols.includes(e.key) && e.preventDefault()
+                }
                 onChange={handleChange}
                 onBlur={handleBlur}
               ></input>
@@ -411,7 +428,7 @@ const Form = () => {
                   values.country ? values.country.value : null
                 )}
                 value={values.state}
-                placeholder={"Enter Country Name"}
+                placeholder={"Enter State Name"}
                 onBlur={(e) => {
                   handleBlur(e);
                   if (errors.state) {
@@ -446,6 +463,7 @@ const Form = () => {
                   values.state ? values.state.isoCode : null
                 )}
                 value={values.city}
+                placeholder={"Enter City Name"}
                 // onChange={(value) => setFieldValue("city", value)}
                 onBlur={(e) => {
                   handleBlur(e);
@@ -460,32 +478,98 @@ const Form = () => {
               />
             </div>
 
-            {/* <div className="input-group">
-              <label
-                className="float-label label-firstName"
-                htmlFor="firstName"
-              >
-                State
-              </label>
-              {errors.state && touched.state ? (
+            <div className="input-group">
+              <label className="float-label label-pinCode">Pin Code</label>
+              {errors.pinCode && touched.pinCode ? (
                 <div className="error-comp">
-                  <p className="error">{errors.state}</p>
+                  <p className="error">{errors.pinCode}</p>
                 </div>
               ) : null}
+              <input
+                type="number"
+                autoComplete="off"
+                name="pinCode"
+                id="pinCode"
+                className="input input-pinCode"
+                value={values.pinCode}
+                onKeyDown={(e) =>
+                  exceptThisSymbols.includes(e.key) && e.preventDefault()
+                }
+                onChange={handleChange}
+                onBlur={handleBlur}
+              ></input>
+            </div>
+          </div>
 
-              <Select
-                id="state"
-                name="state"
-                options={updatedStates(
-                  values.country ? values.country.value : null
-                )}
-                value={values.state}
-                placeholder={"Enter Country Name"}
-                onChange={(value) => {
-                  setValues({ ...values, state: value, city: null });
+          {/* DOB and panCard */}
+
+          <div className="input-row">
+            <div className="input-group">
+              <label
+                className="float-label label-dateOfBirth"
+                htmlFor="dateOfBirth"
+              >
+                Date Of Birth
+              </label>
+              {dateErrorMessage ? (
+                <div className="error-comp">
+                  <p className="error">{dateErrorMessage}</p>
+                </div>
+              ) : null}
+              {errors.dateOfBirth ? (
+                <div className="error-comp">
+                  <p className="error">{errors.dateOfBirth}</p>
+                </div>
+              ) : null}
+              <input
+                type="date"
+                autoComplete="off"
+                name="dateOfBirth"
+                id="dateOfBirth"
+                min="1900-11-11"
+                max={
+                  new Date(
+                    new Date().getTime() -
+                      new Date().getTimezoneOffset() * 60000
+                  )
+                    .toISOString()
+                    .split("T")[0]
+                }
+                className="input input-date"
+                value={values.date}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                onClick={(e) => console.log("e==>", e)}
+                onInvalid={(e) => {
+                  e.preventDefault();
+                  setDateErrorMessage(
+                    `DOB Should be [${e.target.min}] to [${e.target.max}]`
+                  );
                 }}
               />
-            </div> */}
+            </div>
+
+            <div className="input-group">
+              <label className="float-label label-panNumber">
+                {" "}
+                Pan Card Number
+              </label>
+              {errors.panNumber && touched.panNumber ? (
+                <div className="error-comp">
+                  <p className="error">{errors.panNumber}</p>
+                </div>
+              ) : null}
+              <input
+                type="text"
+                autoComplete="off"
+                name="panNumber"
+                id="panNumber"
+                className="input input-panNumber"
+                value={values.panNumber}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </div>
           </div>
 
           {/* ------------- */}
@@ -530,3 +614,15 @@ export default Form;
 //    ></input>
 //  </div>
 // </div>
+
+// \b(?:2003/04/(?:30|2[5-9])|2003/(?:(?:0[69]|11)/(?:30|[12][0-9]|0[1-9])|(?:0[578]|1[02])/(?:3[01]|[12][0-9]|0[1-9]))|2011/04/0[1-4]|2011/(?:02/(?:[12][0-9]|0[1-9])|0[13]/(?:3[01]|[12][0-9]|0[1-9]))|(?:2010|200[4-9])/(?:02/(?:[12][0-9]|0[1-9])|(?:0[469]|11)/(?:30|[12][0-9]|0[1-9])|(?:0[13578]|1[02])/(?:3[01]|[12][0-9]|0[1-9])))\b
+// ([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))
+
+// max={
+//   new Date(
+//     new Date().getTime() -
+//       new Date().getTimezoneOffset() * 60000
+//   )
+//     .toISOString()
+//     .split("T")[0]
+// }
