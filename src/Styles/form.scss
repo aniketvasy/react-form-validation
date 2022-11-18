@@ -7,6 +7,21 @@ body {
   font-family: "Roboto", sans-serif;
   background-color: rgba(4, 121, 255, 0.26);
 }
+.formHeading-comp {
+  width: 50%;
+  margin: 10px auto;
+  background-color: rgba(0, 119, 178, 0.731);
+  padding: 8px 5px;
+  border-radius: 5px;
+}
+.formHeading {
+  font-size: 25px;
+  color: rgba(255, 255, 255, 0.955);
+  word-spacing: 1px;
+  letter-spacing: 0.6px;
+  font-weight: bold;
+  text-align: center;
+}
 .form {
   width: 50%;
   margin: 50px auto;
@@ -43,13 +58,19 @@ body {
   font-size: 16px;
   border-radius: 5px;
   // background-color: rgb(255, 255, 255);
-  border: 0px solid;
+  // border: 0px solid;
   padding: 3px 10px;
   border: 1px rgba(255, 0, 0, 0) solid;
+  transition: all 1s;
+  background-color: white;
   // outline: 1px rgba(255, 0, 0, 0.838) solid;
 }
+.input:hover,
 .input:focus {
-  border: 1px rgba(255, 0, 0, 0) solid;
+  background-color: white;
+}
+.input:focus {
+  // border: 1px rgba(255, 0, 0, 0) solid;
   outline: 0px;
 }
 
@@ -75,16 +96,40 @@ body {
 .submit-comp {
   display: flex;
   justify-content: center;
+
   padding: 20px;
 }
 .submit {
-  background-color: rgba(56, 2, 156, 0.616);
+  background-color: rgba(0, 119, 178, 0.731);
   font-size: 20px;
   font-weight: bold;
   padding: 10px 15px 10px 15px;
   border: 0px solid;
   color: rgb(255, 255, 255);
   border-radius: 5px;
+}
+
+.submit-message-comp-success {
+  width: 40%;
+  margin: 10px auto;
+  background-color: rgb(61, 191, 0);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.submit-message-comp-fail {
+  width: 40%;
+  margin: 10px auto;
+  background-color: rgba(174, 0, 0, 0.979);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.submit-message {
+  text-align: center;
+  font-size: 18px;
+  color: white;
+  font-weight: bold;
 }
 
 .error-comp {
@@ -98,4 +143,19 @@ body {
 .error {
   position: absolute;
   color: rgb(129, 1, 1);
+}
+
+.input-error,
+.input-error:focus {
+  outline: 1px rgba(255, 0, 0, 0.576) solid;
+  // padding: 30px;
+}
+.input-country,
+.input-state,
+.input-city {
+  border-radius: 3px;
+}
+
+.locaion-error {
+  padding-top: 3px;
 }

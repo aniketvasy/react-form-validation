@@ -7,6 +7,8 @@ import { getMouseEventOptions } from "@testing-library/user-event/dist/utils";
 
 const Form = () => {
   const [dateErrorMessage, setDateErrorMessage] = useState("");
+  const [submitMessage, setSubmitMessage] = useState("");
+  const [submitStatus, setSubmitStatus] = useState(true);
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -38,7 +40,7 @@ const Form = () => {
     validationSchema: signUpSchemas,
     onSubmit: (values, action) => {
       console.log("submited Data", values);
-      alert("yehooo");
+      // alert("yehooo");
       console.log("last errors", errors);
 
       ////////----------   API   ---------------
@@ -64,7 +66,19 @@ const Form = () => {
         body: JSON.stringify(body),
       };
 
-      fetch("https://eo2305swbtadcxw.m.pipedream.net", options);
+      fetch("https://eoa19gixa3mpvz4.m.pipedream.net", options)
+        .then((response) => response.json())
+        .then((data) => {
+          setSubmitMessage("Successfully Submitted 😃");
+          setSubmitStatus(true);
+          console.log("Success:", data);
+          action.resetForm();
+        })
+        .catch((error) => {
+          setSubmitMessage("Somthing Went Wrong 😔");
+          setSubmitStatus(false);
+          console.error("Error:", error);
+        });
 
       ////////----------   API -/   ------------
       // action.resetForm();
@@ -155,6 +169,9 @@ const Form = () => {
         <form action="" className="form">
           {/* first name and last name */}
 
+          <div className="formHeading-comp">
+            <h1 className="formHeading">Registration Form</h1>
+          </div>
           <div className="input-row">
             <div className="input-group">
               <label
@@ -173,7 +190,11 @@ const Form = () => {
                 autoComplete="off"
                 name="firstName"
                 id="firstName"
-                className="input input-firstName"
+                className={
+                  errors.firstName && touched.firstName
+                    ? "input input-firstName input-error"
+                    : "input input-firstName"
+                }
                 value={values.firstName}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -192,7 +213,11 @@ const Form = () => {
                 autoComplete="off"
                 name="lastName"
                 id="lastName"
-                className="input input-lastName"
+                className={
+                  errors.lastName && touched.lastName
+                    ? "input input-lastName input-error"
+                    : "input input-lastName"
+                }
                 value={values.lastName}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -215,7 +240,11 @@ const Form = () => {
                 autoComplete="off"
                 name="userName"
                 id="userName"
-                className="input input-userName"
+                className={
+                  errors.userName && touched.userName
+                    ? "input input-userName input-error"
+                    : "input input-userName"
+                }
                 value={values.userName}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -234,7 +263,11 @@ const Form = () => {
                 autoComplete="off"
                 name="email"
                 id="email"
-                className="input input-email"
+                className={
+                  errors.email && touched.email
+                    ? "input input-email input-error"
+                    : "input input-email"
+                }
                 value={values.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -259,7 +292,11 @@ const Form = () => {
                 autoComplete="off"
                 name="mobileNumber"
                 id="mobileNumber"
-                className="input input-mobileNumber"
+                className={
+                  errors.mobileNumber && touched.mobileNumber
+                    ? "input input-mobileNumber input-error"
+                    : "input input-mobileNumber"
+                }
                 value={values.mobileNumber}
                 onKeyDown={(e) =>
                   exceptThisSymbols.includes(e.key) && e.preventDefault()
@@ -338,7 +375,11 @@ const Form = () => {
                 autoComplete="off"
                 name="password"
                 id="password"
-                className="input input-password"
+                className={
+                  errors.password && touched.password
+                    ? "input input-password input-error"
+                    : "input input-password"
+                }
                 value={values.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -359,7 +400,11 @@ const Form = () => {
                 autoComplete="off"
                 name="confirmPassword"
                 id="confirmPassword"
-                className="input input-confirmPassword"
+                className={
+                  errors.confirmPassword && touched.confirmPassword
+                    ? "input input-confirmPassword input-error"
+                    : "input input-confirmPassword"
+                }
                 value={values.confirmPassword}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -373,7 +418,7 @@ const Form = () => {
             <div className="input-group">
               <label className="float-label label-country">Country</label>
               {errors.country && touched.country ? (
-                <div className="error-comp">
+                <div className="error-comp locaion-error">
                   <p className="error">{"Please select country"}</p>
                 </div>
               ) : null}
@@ -384,6 +429,11 @@ const Form = () => {
                 options={updatedCountries}
                 value={values.country}
                 placeholder={"Enter Country Name"}
+                className={
+                  errors.country && touched.country
+                    ? "input-error input-country"
+                    : "input-country"
+                }
                 onBlur={(e) => {
                   handleBlur(e);
                   if (errors.country) {
@@ -416,7 +466,7 @@ const Form = () => {
                 State
               </label>
               {errors.state && touched.state ? (
-                <div className="error-comp">
+                <div className="error-comp locaion-error">
                   <p className="error">{"Please select state"}</p>
                 </div>
               ) : null}
@@ -427,6 +477,11 @@ const Form = () => {
                 options={updatedStates(
                   values.country ? values.country.value : null
                 )}
+                className={
+                  errors.state && touched.state
+                    ? "input-error input-state"
+                    : "input-state"
+                }
                 value={values.state}
                 placeholder={"Enter State Name"}
                 onBlur={(e) => {
@@ -450,7 +505,7 @@ const Form = () => {
             <div className="input-group">
               <label className="float-label label-country">City</label>
               {errors.city && touched.city ? (
-                <div className="error-comp">
+                <div className="error-comp locaion-error">
                   <p className="error">{"Please select city"}</p>
                 </div>
               ) : null}
@@ -462,6 +517,11 @@ const Form = () => {
                   values.state ? values.state.countryCode : null,
                   values.state ? values.state.isoCode : null
                 )}
+                className={
+                  errors.city && touched.city
+                    ? "input-error input-city"
+                    : "input-city"
+                }
                 value={values.city}
                 placeholder={"Enter City Name"}
                 // onChange={(value) => setFieldValue("city", value)}
@@ -490,7 +550,11 @@ const Form = () => {
                 autoComplete="off"
                 name="pinCode"
                 id="pinCode"
-                className="input input-pinCode"
+                className={
+                  errors.pinCode && touched.pinCode
+                    ? "input input-pinCode input-error"
+                    : "input input-pinCode"
+                }
                 value={values.pinCode}
                 onKeyDown={(e) =>
                   exceptThisSymbols.includes(e.key) && e.preventDefault()
@@ -516,7 +580,7 @@ const Form = () => {
                   <p className="error">{dateErrorMessage}</p>
                 </div>
               ) : null}
-              {errors.dateOfBirth ? (
+              {errors.dateOfBirth && touched.dateOfBirth ? (
                 <div className="error-comp">
                   <p className="error">{errors.dateOfBirth}</p>
                 </div>
@@ -535,7 +599,11 @@ const Form = () => {
                     .toISOString()
                     .split("T")[0]
                 }
-                className="input input-date"
+                className={
+                  errors.dateOfBirth && touched.dateOfBirth
+                    ? "input input-dateOfBirth input-error"
+                    : "input input-dateOfBirth"
+                }
                 value={values.date}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -564,7 +632,11 @@ const Form = () => {
                 autoComplete="off"
                 name="panNumber"
                 id="panNumber"
-                className="input input-panNumber"
+                className={
+                  errors.panNumber && touched.panNumber
+                    ? "input input-panNumber input-error"
+                    : "input input-panNumber"
+                }
                 value={values.panNumber}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -579,6 +651,17 @@ const Form = () => {
               Registration
             </button>
           </div>
+          {submitMessage && (
+            <div
+              className={
+                submitStatus
+                  ? "submit-message-comp-success"
+                  : "submit-message-comp-fail"
+              }
+            >
+              <p className="submit-message">{submitMessage}</p>
+            </div>
+          )}
         </form>
       </div>
     </>
