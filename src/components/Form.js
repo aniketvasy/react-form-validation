@@ -4,11 +4,14 @@ import { signUpSchemas } from "../schemas";
 import Select from "react-select";
 import { City, Country, State } from "country-state-city";
 import { getMouseEventOptions } from "@testing-library/user-event/dist/utils";
+import { BsEyeSlash, BsEye } from "react-icons/bs";
 
 const Form = () => {
   const [dateErrorMessage, setDateErrorMessage] = useState("");
   const [submitMessage, setSubmitMessage] = useState("");
   const [submitStatus, setSubmitStatus] = useState(true);
+  const [eye, setEye] = useState(false);
+  const [eyeC, setEyeC] = useState(false);
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -361,7 +364,7 @@ const Form = () => {
           {/* password and confirm password */}
 
           <div className="input-row">
-            <div className="input-group">
+            <div className="input-group password-eye-relative">
               <label className="float-label label-password" htmlFor="password">
                 Password
               </label>
@@ -370,8 +373,9 @@ const Form = () => {
                   <p className="error">{errors.password}</p>
                 </div>
               ) : null}
+
               <input
-                type="password"
+                type={eye ? "text" : "password"}
                 autoComplete="off"
                 name="password"
                 id="password"
@@ -384,9 +388,14 @@ const Form = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
+              {
+                <div className="password-eye" onClick={() => setEye(!eye)}>
+                  {eye ? <BsEye /> : <BsEyeSlash />}
+                </div>
+              }
             </div>
 
-            <div className="input-group">
+            <div className="input-group password-eye-relative">
               <label className="float-label label-confirmPassword">
                 Confirm Password
               </label>
@@ -396,7 +405,7 @@ const Form = () => {
                 </div>
               ) : null}
               <input
-                type="password"
+                type={eyeC ? "text" : "password"}
                 autoComplete="off"
                 name="confirmPassword"
                 id="confirmPassword"
@@ -409,6 +418,11 @@ const Form = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
+              {
+                <div className="password-eye" onClick={() => setEyeC(!eyeC)}>
+                  {eyeC ? <BsEye /> : <BsEyeSlash />}
+                </div>
+              }
             </div>
           </div>
 

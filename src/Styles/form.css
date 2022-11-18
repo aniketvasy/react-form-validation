@@ -90,6 +90,20 @@ body {
   outline: 0px;
 }
 
+.input-password {
+  padding-right: 37px;
+}
+
+.password-eye-relative {
+  position: relative;
+}
+
+.password-eye {
+  position: absolute;
+  top: 32px;
+  right: 8px;
+}
+
 .radio-input {
   display: -webkit-box;
   display: -ms-flexbox;
