@@ -393,7 +393,18 @@ const Form = () => {
                   {eye ? <BsEye /> : <BsEyeSlash />}
                 </div>
               }
+              {
+                <div className="password-points">
+                  <div className="Minimum 5 characters">
+                    {/[A-Za-z0-9].{8,}/.test(values.password)
+                      ? "true"
+                      : "false"}
+                  </div>
+                </div>
+              }
             </div>
+
+            {/*confirm password */}
 
             <div className="input-group password-eye-relative">
               <label className="float-label label-confirmPassword">
