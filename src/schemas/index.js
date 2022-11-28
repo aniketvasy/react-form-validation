@@ -27,8 +27,8 @@ export const signUpSchemas = Yup.object({
   password: Yup.string()
     // .min(6, "Password should be 6 to 40 characters")
     .matches(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/,
-      "Minimum 5 characters, 1 Upper case letter, 1 Lower case letter, 1 Numeric digit."
+      /^(?=.*\d)(?=.*[a-z])(?=.*[@#$%^&+=])(?=.*[A-Z]).{8,}$/,
+      "Minimum 8 characters, 1 Upper case letter, 1 Lower case letter, 1 Numeric digit."
     )
     .max(40, "Password should be 6 to 40 characters")
     .required("Please Enter Password"),

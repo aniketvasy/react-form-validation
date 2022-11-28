@@ -194,7 +194,30 @@ body {
   border-radius: 3px;
 }
 
+.password-points{
+  display: flex;
+ flex-direction: column;
+justify-content: center;
+gap: 5px;
+
+}
 .locaion-error {
   padding-top: 3px;
 }
 /*# sourceMappingURL=form.css.map */
+
+.psw-w{
+  margin-top: 2px;
+  font-size: 14.4px;
+ 
+}
+
+.pwd-icon{
+  font-size: 20px;
+}
+
+.inner-point{
+  display: flex;
+  align-items: center;
+}
+

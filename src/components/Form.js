@@ -5,6 +5,9 @@ import Select from "react-select";
 import { City, Country, State } from "country-state-city";
 import { getMouseEventOptions } from "@testing-library/user-event/dist/utils";
 import { BsEyeSlash, BsEye } from "react-icons/bs";
+import { AiOutlineCheck as AiOutlineCheckCircle , AiOutlineClose as AiOutlineCloseCircle} from "react-icons/ai";
+import axios from "axios";
+
 
 const Form = () => {
   const [dateErrorMessage, setDateErrorMessage] = useState("");
@@ -46,42 +49,63 @@ const Form = () => {
       // alert("yehooo");
       console.log("last errors", errors);
 
-      ////////----------   API   ---------------
 
-      const headers = new Headers();
-      headers.append("Content-Type", "application/json");
 
-      const data = {
-        ...values,
-        country: values.country.name,
-        state: values.state.name,
-        city: values.city.name,
-      };
+      /////------------------ Axios API  ------------------------
 
-      const body = {
-        userData: data,
-      };
-
-      const options = {
-        method: "POST",
-        headers,
-        mode: "cors",
-        body: JSON.stringify(body),
-      };
-
-      fetch("https://eoa19gixa3mpvz4.m.pipedream.net", options)
-        .then((response) => response.json())
-        .then((data) => {
+      const postFormData = async() => {
+        try{
+          const res = await axios.post("https://eoh9c8p17ah8py0.m.pipedream.net",JSON.stringify(values))
           setSubmitMessage("Successfully Submitted 😃");
           setSubmitStatus(true);
-          console.log("Success:", data);
-          action.resetForm();
-        })
-        .catch((error) => {
+          console.log("calling apiiiiii");
+
+        }catch(errors){
+          console.log("Axios Error=>",errors)
           setSubmitMessage("Somthing Went Wrong 😔");
           setSubmitStatus(false);
-          console.error("Error:", error);
-        });
+        }
+      }
+      postFormData()
+
+      /////------------------ Axios API  ------------------------
+
+      ////////----------   API   ---------------
+
+      // const headers = new Headers();
+      // headers.append("Content-Type", "application/json");
+
+      // const data = {
+      //   ...values,
+      //   country: values.country.name,
+      //   state: values.state.name,
+      //   city: values.city.name,
+      // };
+
+      // const body = {
+      //   userData: data,
+      // };
+
+      // const options = {
+      //   method: "POST",
+      //   headers,
+      //   mode: "cors",
+      //   body: JSON.stringify(body),
+      // };
+
+      // fetch("https://eoa19gixa3mpvz4.m.pipedream.net", options)
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     setSubmitMessage("Successfully Submitted 😃");
+      //     setSubmitStatus(true);
+      //     console.log("Success:", data);
+      //     // action.resetForm();
+      //   })
+      //   .catch((error) => {
+      //     setSubmitMessage("Somthing Went Wrong 😔");
+      //     setSubmitStatus(false);
+      //     console.error("Error:", error);
+      //   });
 
       ////////----------   API -/   ------------
       // action.resetForm();
@@ -368,11 +392,11 @@ const Form = () => {
               <label className="float-label label-password" htmlFor="password">
                 Password
               </label>
-              {errors.password && touched.password ? (
+              {/* {errors.password && touched.password ? (
                 <div className="error-comp">
                   <p className="error">{errors.password}</p>
                 </div>
-              ) : null}
+              ) : null} */}
 
               <input
                 type={eye ? "text" : "password"}
@@ -393,14 +417,51 @@ const Form = () => {
                   {eye ? <BsEye /> : <BsEyeSlash />}
                 </div>
               }
-              {
+              {touched.password?
                 <div className="password-points">
-                  <div className="Minimum 5 characters">
+                  <div className="minimum-characters psw-w">
+                    <p className="inner-point">
                     {/[A-Za-z0-9].{8,}/.test(values.password)
-                      ? "true"
-                      : "false"}
+                      ?< AiOutlineCheckCircle  className="pwd-icon"/>
+                      : <AiOutlineCloseCircle className="pwd-icon"/>}
+                      <span>Minimum 8 characters</span>
+                      </p>
                   </div>
-                </div>
+                  <div className="uppercase psw-w">
+                    <p className="inner-point">
+                    {/(?=.*[A-Z])/.test(values.password)
+                      ?< AiOutlineCheckCircle className="pwd-icon"/>
+                      : <AiOutlineCloseCircle className="pwd-icon"/>}
+                     <span>1 Upper case letter</span>
+                      </p>
+                  </div>
+                  <div className="lowercase psw-w ">
+                    <p className="inner-point">
+                    {/(?=.*[a-z])/.test(values.password)
+                      ?< AiOutlineCheckCircle className="pwd-icon"/>
+                      : <AiOutlineCloseCircle className="pwd-icon"/>}
+                    <span> 1 Lower case letter</span>
+                      </p>
+                  </div>
+                  <div className="numeric psw-w">
+                    <p className="inner-point">
+                    {/(?=.*[0-9])/.test(values.password)
+                      ?< AiOutlineCheckCircle className="pwd-icon"/>
+                      : <AiOutlineCloseCircle className="pwd-icon"/>}
+                    <span> 1 Numeric digit</span>
+                      </p>
+                  
+                  </div>
+                  <div className="spacial psw-w">
+                    <p className="inner-point">
+                    {/(?=.*[@#$%^&+=])/.test(values.password)
+                      ?< AiOutlineCheckCircle className="pwd-icon"/>
+                      : <AiOutlineCloseCircle className="pwd-icon"/>}
+                     <span>1 special character</span>
+                      </p>
+                   
+                  </div>
+                </div>:null
               }
             </div>
 
